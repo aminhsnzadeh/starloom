@@ -2,9 +2,11 @@
 export default function Cube() {
 
     return (
-        <mesh>
-            <boxGeometry args={[1, 1, 1]} />
-            <meshBasicMaterial color="orange" />
-        </mesh>
+        <>
+            <mesh castShadow position={[0, 0, 0]}>
+                <boxGeometry args={[1, 1, 1]} />
+                <meshStandardMaterial color="orange" />
+            </mesh>
+        </>
     )
 }

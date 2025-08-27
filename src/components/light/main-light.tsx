@@ -2,6 +2,13 @@
 export default function MainLight() {
 
     return (
-        <ambientLight intensity={1} color="white" />
+        <>
+            <ambientLight intensity={0.5} />
+            <directionalLight
+                position={[5, 10, 7]}
+                intensity={1}
+                castShadow
+            />
+        </>
     )
 }
