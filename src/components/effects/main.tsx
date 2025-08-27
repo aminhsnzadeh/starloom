@@ -9,8 +9,10 @@ export default function SceneEffects() {
         <>
             <EffectComposer>
                 <Bloom
+                    luminanceThreshold={0.2}
+                    luminanceSmoothing={0.7}
+                    height={300}
                     intensity={bloomIntensity}
-                    kernelSize={3}
                 />
             </EffectComposer>
         </>

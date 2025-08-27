@@ -29,11 +29,11 @@ export default function PlanetGroup({ size, rotationSpeed, distance, ring }: pla
             </mesh>
             <mesh rotation-x={-Math.PI / 2}>
                 <torusGeometry args={[distance, trailThickness, 4, 128, trailThetaEnd]} />
-                <meshStandardMaterial color="#fff" />
+                <meshBasicMaterial color="#fff" />
             </mesh>
             <mesh rotation-x={-Math.PI / 2}>
                 <torusGeometry args={[distance, trailThickness / 3, 4, 128]} />
-                <meshStandardMaterial color="#999" />
+                <meshBasicMaterial color="#999" />
             </mesh>
             {
                 !!ring && (
@@ -46,7 +46,7 @@ export default function PlanetGroup({ size, rotationSpeed, distance, ring }: pla
                         const outerRadius = innerRadius + baseThickness;
 
                         return (
-                            <mesh key={index} position={[distance, 0, 0]} rotation-x={Math.PI / 1.75}>
+                            <mesh receiveShadow key={index} position={[distance, 0, 0]} rotation-y={-Math.PI / 1.1} rotation-x={Math.PI / 1.75}>
                                 <ringGeometry args={[innerRadius, outerRadius, 64]} />
                                 <meshStandardMaterial color={ring.color} side={THREE.DoubleSide} />
                             </mesh>
