@@ -31,6 +31,10 @@ export default function PlanetGroup({ size, rotationSpeed, distance, ring }: pla
                 <torusGeometry args={[distance, trailThickness, 4, 128, trailThetaEnd]} />
                 <meshStandardMaterial color="#fff" />
             </mesh>
+            <mesh rotation-x={-Math.PI / 2}>
+                <torusGeometry args={[distance, trailThickness / 2, 4, 128]} />
+                <meshStandardMaterial color="#999" />
+            </mesh>
             {
                 !!ring && (
                     ringFactor.map((_, index) => {

@@ -5,7 +5,12 @@ export default function SolarSystem() {
 
     return (
         <group>
-            <StarGroup />
+            <StarGroup
+                stars={[
+                    {size: 1, emissive: 1, color: "white" },
+                ]}
+                gap={0.2}
+            />
             <PlanetGroup
                 size={1}
                 rotationSpeed={0.001}
@@ -13,15 +18,15 @@ export default function SolarSystem() {
                 ring={{
                     size: 1,
                     ringSizeFactor: 1.1,
-                    ringThicknessFactor: 0.2,
+                    ringThicknessFactor: 0.3,
                     ringGapFactor: 0.05,
                     color: "#ffffaa",
-                    count: 4
+                    count: 2
                 }}
             />
             <PlanetGroup
                 size={0.75}
-                rotationSpeed={0.002}
+                rotationSpeed={0.003}
                 distance={5}
             />
         </group>

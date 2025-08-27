@@ -15,7 +15,7 @@ export default function SystemScene() {
             <OrbitControls  />
             <SpaceLight />
             {/*<SceneEffects />*/}
-            <gridHelper args={[50, 50, "#ffb929"]} />
+            {/*<gridHelper args={[50, 50, "#ffb929"]} />*/}
         </Canvas>
     )
 }
