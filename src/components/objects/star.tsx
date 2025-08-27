@@ -1,11 +1,12 @@
 import type {starProps} from "../../types/star-type.tsx";
+import * as THREE from "three"
 
 export default function StarGroup({ stars, gap }: starProps) {
 
     const count = stars.length;
 
     return (
-        <group rotation-x={-Math.PI / 1.5} rotation-y={Math.PI / 2}>
+        <group rotation-x={-Math.PI / 1.25} rotation-y={Math.PI / 1.25} rotation-z={Math.PI / 1.25}>
             {stars.map((star, index) => {
                 let position: [number, number, number] = [0, 0, 0]
 
@@ -33,14 +34,24 @@ export default function StarGroup({ stars, gap }: starProps) {
                 }
 
                 return (
-                    <mesh key={index} position={position}>
-                        <sphereGeometry args={[star.size, 32, 32]} />
-                        <meshStandardMaterial
-                            emissive={star.color}
-                            emissiveIntensity={star.emissive}
+                    <group position={position} key={`star-${index}`}>
+                        <mesh key={index}>
+                            <sphereGeometry args={[star.size, 32, 32]} />
+                            <meshStandardMaterial
+                                emissive={star.color}
+                                emissiveIntensity={2}
+                                color={star.color}
+                                side={THREE.DoubleSide}
+                                roughness={1}
+                            />
+                        </mesh>
+                        <pointLight
                             color={star.color}
+                            intensity={star.size * 50}
+                            distance={star.size * 50}
+                            decay={1}
                         />
-                    </mesh>
+                    </group>
                 );
             })}
         </group>

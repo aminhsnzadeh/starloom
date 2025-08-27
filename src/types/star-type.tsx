@@ -7,7 +7,6 @@ interface starProps {
 interface starType {
     size: number
     color: string
-    emissive: number
 }
 
 export type {
