@@ -4,6 +4,7 @@ import useMainSceneDebugger from "../debugs/scene/main.tsx";
 import SpaceLight from "../light/space-light.tsx";
 import SolarSystem from "../objects/solar-system.tsx";
 import StarField from "../objects/star-field.tsx";
+import SceneEffects from "../effects/main.tsx";
 
 export default function SystemScene() {
 
@@ -16,7 +17,7 @@ export default function SystemScene() {
             <OrbitControls  />
             <SpaceLight />
             <StarField count={10000} spread={1000} />
-            {/*<SceneEffects />*/}
+            <SceneEffects />
             {/*<gridHelper args={[50, 50, "#ffb929"]} />*/}
         </Canvas>
     )
