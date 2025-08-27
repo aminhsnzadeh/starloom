@@ -1,5 +1,5 @@
 
-export default function MainLight() {
+export default function SpaceLight() {
 
     return (
         <>
