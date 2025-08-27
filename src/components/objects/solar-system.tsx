@@ -10,12 +10,19 @@ export default function SolarSystem() {
                 size={1}
                 rotationSpeed={0.001}
                 distance={10}
+                ring={{
+                    size: 1,
+                    ringSizeFactor: 1.1,
+                    ringThicknessFactor: 0.2,
+                    ringGapFactor: 0.05,
+                    color: "#ffffaa",
+                    count: 4
+                }}
             />
             <PlanetGroup
                 size={0.75}
-                rotationSpeed={0.01}
+                rotationSpeed={0.002}
                 distance={5}
-                hasRing
             />
         </group>
     )

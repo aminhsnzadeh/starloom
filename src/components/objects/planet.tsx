@@ -3,9 +3,15 @@ import {useFrame} from "@react-three/fiber";
 import * as THREE from "three";
 import type {planetProps} from "../../types/planet-type.tsx";
 
-export default function PlanetGroup({ size, rotationSpeed, distance, hasRing }: planetProps) {
+export default function PlanetGroup({ size, rotationSpeed, distance, ring }: planetProps) {
 
     const planetGRef = useRef<THREE.Group>(null)
+
+    const trailThickness =  rotationSpeed * 10
+    const trailThetaEnd = (rotationSpeed * 1000) / 2
+    const ringFactor = new Array(ring?.count || 0).fill(0)
+
+    console.log(ringFactor, "ringFactor")
 
     useFrame(() => {
         if(planetGRef.current) {
@@ -21,25 +27,27 @@ export default function PlanetGroup({ size, rotationSpeed, distance, hasRing }: 
                     color="#ffffaa"
                 />
             </mesh>
-            <mesh rotation-x={-Math.PI / 2} position={[0, 0, 0]} >
-                <ringGeometry args={[distance + 0.01, distance - 0.01, 128]}/>
-                <meshStandardMaterial
-                    color="#fff"
-                    side={THREE.DoubleSide}
-                />
+            <mesh rotation-x={-Math.PI / 2}>
+                <torusGeometry args={[distance, trailThickness, 4, 128, trailThetaEnd]} />
+                <meshStandardMaterial color="#fff" />
             </mesh>
             {
-                hasRing && (
-                    <>
-                        <mesh position={[distance, 0, 0]} rotation-x={Math.PI / 1.75}>
-                            <ringGeometry args={[size * 1.2, size * 1.6, 64]} />
-                            <meshStandardMaterial color="#ffffaa" side={THREE.DoubleSide} />
-                        </mesh>
-                        <mesh position={[distance, 0, 0]} rotation-x={Math.PI / 1.75}>
-                            <ringGeometry args={[size * 1.7, size * 2, 64]} />
-                            <meshStandardMaterial color="#ffffaa" side={THREE.DoubleSide} />
-                        </mesh>
-                    </>
+                !!ring && (
+                    ringFactor.map((_, index) => {
+                        const baseInner = ring.size * ring.ringSizeFactor
+                        const baseThickness = ring.size * ring.ringThicknessFactor
+                        const gap = ring.size * ring.ringGapFactor
+
+                        const innerRadius = baseInner + index * (baseThickness + gap);
+                        const outerRadius = innerRadius + baseThickness;
+
+                        return (
+                            <mesh key={index} position={[distance, 0, 0]} rotation-x={Math.PI / 1.75}>
+                                <ringGeometry args={[innerRadius, outerRadius, 64]} />
+                                <meshStandardMaterial color={ring.color} side={THREE.DoubleSide} />
+                            </mesh>
+                        );
+                    })
                 )
             }
         </group>

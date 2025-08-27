@@ -2,17 +2,20 @@
 interface planetProps {
     size: number
     distance: number
-    // trail: planetTrailType
+    ring?: planetRingType
     rotationSpeed: number
-    hasRing?: boolean
 }
 
-interface planetTrailType {
+interface planetRingType {
     color: string
     size: number
+    count: number
+    ringSizeFactor: number
+    ringThicknessFactor: number,
+    ringGapFactor: number,
 }
 
 export type {
     planetProps,
-    planetTrailType
+    planetRingType
 }
