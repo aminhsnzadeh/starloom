@@ -1,10 +1,10 @@
-import MainScene from "./components/scene/main-scene.tsx";
+import SystemScene from "./components/scene/system-scene.tsx";
 
 function App() {
 
     return (
         <>
-            <MainScene/>
+            <SystemScene/>
         </>
     )
 }
