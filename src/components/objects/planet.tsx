@@ -7,7 +7,7 @@ export default function PlanetGroup({ size, rotationSpeed, distance, ring }: pla
 
     const planetGRef = useRef<THREE.Group>(null)
 
-    const trailThickness =  rotationSpeed * 10 * size
+    const trailThickness = 0.01
     const trailThetaEnd = (rotationSpeed * 1000) / 2
     const ringFactor = new Array(ring?.count || 0).fill(0)
 
