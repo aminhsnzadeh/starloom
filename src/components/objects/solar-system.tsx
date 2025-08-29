@@ -7,7 +7,7 @@ export default function SolarSystem() {
         <group>
             <StarGroup
                 stars={[
-                    {size: 2, color: "#d2a3f1" },
+                    {size: 2, color: "#a3c2f1" },
                 ]}
                 gap={0.2}
             />

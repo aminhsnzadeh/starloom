@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import * as THREE from "three";
-import useGenerate32Seed from "./useGenerate32Seed.ts";
+import useSeed from "../store/seed.ts";
 
 type SpaceTheme = {
     hueRange: [number, number]
@@ -22,34 +22,34 @@ const themes: Record<string, SpaceTheme> = {
     exotic: { hueRange: [280, 340], satRange: [50, 80], lightRange: [20, 30] },
 };
 
-function randomInRange([min, max]: [number, number]) {
-    return min + Math.random() * (max - min);
+function randomInRange([min, max]: [number, number], key: number) {
+    return min + key * (max - min);
 }
 
+
 export function useSpaceBiome() {
+    const { key } = useSeed();
 
-    const newSeed = useGenerate32Seed()
-
-    console.log(newSeed)
+    // if key is undefined, generate a new one
+    const safeKey = key ?? 0;
 
     return useMemo<SpaceBiome>(() => {
+        const keys = Object.keys(themes);
+        const themeKey = keys[Math.floor(safeKey * keys.length) % keys.length];
+        const theme = themes[themeKey];
 
-        const keys = Object.keys(themes)
-        const themeKey = keys[Math.floor(Math.random() * keys.length)]
-        const theme = themes[themeKey]
+        const hue = randomInRange(theme.hueRange, safeKey);
+        const sat = randomInRange(theme.satRange, safeKey);
+        const light = randomInRange(theme.lightRange, safeKey);
 
-        const hue = randomInRange(theme.hueRange)
-        const sat = randomInRange(theme.satRange)
-        const light = randomInRange(theme.lightRange)
-
-        const color = new THREE.Color(`hsl(${hue}, ${sat}%, ${light}%)`)
+        const color = new THREE.Color(`hsl(${hue}, ${sat}%, ${light}%)`);
 
         return {
             theme: themeKey,
             color,
-            nebulaIntensity: Math.random() * 0.8 + 0.2,
-            starDensity: Math.random() * 0.5 + 0.5,
-            bloomIntensity: Math.random() * 0.6 + 0.4,
-        }
-    }, [])
+            nebulaIntensity: safeKey * 0.8 + 0.2,
+            starDensity: safeKey * 0.5 + 0.5,
+            bloomIntensity: safeKey * 0.6 + 0.4,
+        };
+    }, [safeKey]);
 }

@@ -1,19 +1,12 @@
 
-export default function useGenerate32Seed() {
+export default function useGenerate32Seed(): number {
+    const byteArray = new Uint8Array(4)
+    window.crypto.getRandomValues(byteArray)
 
-    function generate() {
-        const byteArray = new Uint8Array(4);
-
-        window.crypto.getRandomValues(byteArray);
-
-        let hexKey = '';
-        for (let i = 0; i < byteArray.length; i++) {
-            hexKey += byteArray[i].toString(16).padStart(2, '0');
-        }
-
-        return hexKey;
-    }
-
-    return generate()
-
+    return (
+        (byteArray[0] << 24) |
+        (byteArray[1] << 16) |
+        (byteArray[2] << 8) |
+        byteArray[3]
+    ) >>> 0
 }
