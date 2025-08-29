@@ -1,5 +1,5 @@
 import {useControls} from "leva";
-import {useSpaceBiome} from "../../../hooks/useSpaceBiome.tsx";
+import {useSpaceBiome} from "../../../hooks/useSpaceBiome.ts";
 
 export default function useMainSceneDebugger() {
 

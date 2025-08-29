@@ -1,5 +1,5 @@
 import {Bloom, EffectComposer} from "@react-three/postprocessing";
-import {useSpaceBiome} from "../../hooks/useSpaceBiome.tsx";
+import {useSpaceBiome} from "../../hooks/useSpaceBiome.ts";
 
 export default function SceneEffects() {
 

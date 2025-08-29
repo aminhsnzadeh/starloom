@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import * as THREE from "three";
+import useGenerate32Seed from "./useGenerate32Seed.ts";
 
 type SpaceTheme = {
     hueRange: [number, number]
@@ -26,6 +27,11 @@ function randomInRange([min, max]: [number, number]) {
 }
 
 export function useSpaceBiome() {
+
+    const newSeed = useGenerate32Seed()
+
+    console.log(newSeed)
+
     return useMemo<SpaceBiome>(() => {
 
         const keys = Object.keys(themes)
