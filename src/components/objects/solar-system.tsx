@@ -7,7 +7,7 @@ export default function SolarSystem() {
         <group>
             <StarGroup
                 stars={[
-                    {size: 1, color: "#d2a3f1" },
+                    {size: 2, color: "#d2a3f1" },
                 ]}
                 gap={0.2}
             />
@@ -25,8 +25,8 @@ export default function SolarSystem() {
                 }}
             />
             <PlanetGroup
-                size={0.25}
-                rotationSpeed={0.003}
+                size={1}
+                rotationSpeed={0.0008}
                 distance={10}
             />
         </group>
