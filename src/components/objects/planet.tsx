@@ -11,8 +11,6 @@ export default function PlanetGroup({ size, rotationSpeed, distance, ring }: pla
     const trailThetaEnd = (rotationSpeed * 1000) / 2
     const ringFactor = new Array(ring?.count || 0).fill(0)
 
-    console.log(ringFactor, "ringFactor")
-
     useFrame(() => {
         if(planetGRef.current) {
             planetGRef.current.rotation.y -= rotationSpeed
