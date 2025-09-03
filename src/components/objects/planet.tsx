@@ -18,7 +18,7 @@ export default function PlanetGroup({ size, rotationSpeed, distance, ring }: pla
     })
 
     return (
-        <group ref={planetGRef} >
+        <group ref={planetGRef} rotation-y={Math.PI / Math.random()} >
             <mesh position={[distance, 0, 0]} >
                 <sphereGeometry args={[size, 32, 32]}/>
                 <meshStandardMaterial
