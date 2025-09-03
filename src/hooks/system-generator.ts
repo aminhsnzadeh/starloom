@@ -2,6 +2,7 @@ import processSeed from "./useProcessSeed.ts";
 import useMixSeed from "./useMixSeed.ts";
 import weightedChoice from "./weighted-choice.ts";
 import starBuilder from "./star-object-builder.ts";
+import planetBuilder from "./planet-object-builder.ts";
 
 //terrains for different objets for unique values
 const terrains = {
@@ -13,7 +14,6 @@ const terrains = {
 function cleanTemp(temp: number): number {
     return Math.round(temp * 10) / 10
 }
-
 
 export default function useSystemGenerator() {
     const mixSeed = useMixSeed()
@@ -59,8 +59,10 @@ export default function useSystemGenerator() {
 
         return Array.from({ length: count }, (_, i) => {
             const planetSeed = mixSeed(seed, terrains.PLANET_TERRAINS + i)
+            const planetRng = processSeed(planetSeed)
+            const { planet } = planetBuilder(planetRng, i, systemTemp)
 
-            return { planetSeed, systemTemp }
+            return planet
         })
     }
 
@@ -68,8 +70,6 @@ export default function useSystemGenerator() {
         const stars = getStars(seed)
         const systemTemp = computeSystemTemp(stars)
         const planets = getPlanets(seed, systemTemp)
-
-        console.log(planets, "planets")
 
         return { stars, planets, systemTemp }
     };
