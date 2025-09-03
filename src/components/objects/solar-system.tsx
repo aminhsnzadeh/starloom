@@ -6,13 +6,21 @@ import useSystemGenerator from "../../hooks/system-generator.ts";
 export default function SolarSystem() {
 
     const { seed } = useSeed()
-    const { getStars } = useSystemGenerator()
+    const { buildSystem } = useSystemGenerator()
+
+
+    console.log(seed && buildSystem(seed))
+
+    if (!seed) return
+
+    const { stars, planets } = buildSystem(seed || 0)
+    console.log(planets, "planets")
 
     return (
         <group>
             <StarGroup
                 //change num to seed
-                stars={seed ? getStars(3400955192) : []}
+                stars={seed ? stars : []}
                 gap={0.2}
             />
             <PlanetGroup
