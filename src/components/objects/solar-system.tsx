@@ -1,14 +1,26 @@
 import StarGroup from "./star.tsx";
 import PlanetGroup from "./planet.tsx";
+import useSeed from "../../store/seed.ts";
+import useSystemGenerator from "../../hooks/system-generator.ts";
 
 export default function SolarSystem() {
+
+    const { seed } = useSeed()
+    const { buildSystem } = useSystemGenerator()
+
+
+    console.log(seed && buildSystem(seed))
+
+    if (!seed) return
+
+    const { stars, planets } = buildSystem(seed || 0)
+    console.log(planets, "planets")
 
     return (
         <group>
             <StarGroup
-                stars={[
-                    {size: 2, color: "#a3c2f1" },
-                ]}
+                //change num to seed
+                stars={seed ? stars : []}
                 gap={0.2}
             />
             <PlanetGroup
