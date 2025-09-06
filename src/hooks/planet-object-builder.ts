@@ -56,11 +56,15 @@ export default function planetBuilder(rng: () => number, index: number, temp: nu
         { value: 2, acceptedBiomes: ["Barren", "Irradiated"], range: sectionGap * 2 },
         { value: 3, acceptedBiomes: ["Lush", "Water", "Toxic", "Exotic"], range: sectionGap * 3 },
         { value: 4, acceptedBiomes: ["Frozen"], range: sectionGap * 4 },
-        { value: 5, acceptedBiomes: ["Dead"], range: sectionGap, weight: 70 },
-        { value: 3, acceptedBiomes: ["Dead"], range: sectionGap * 3, weight: 30 },
-        { value: 1, acceptedBiomes: ["Giant"], range: sectionGap, weight: 40 },
-        { value: 2, acceptedBiomes: ["Giant"], range: sectionGap * 2, weight: 40 },
-        { value: 3, acceptedBiomes: ["Giant"], range: sectionGap * 3, weight: 20 },
+        //dead planet chance
+        { value: 1, acceptedBiomes: ["Dead"], range: sectionGap },
+        { value: 2, acceptedBiomes: ["Dead"], range: sectionGap * 2 },
+        { value: 3, acceptedBiomes: ["Dead"], range: sectionGap * 3 },
+        { value: 4, acceptedBiomes: ["Dead"], range: sectionGap * 4 },
+        //giant planet chance
+        { value: 1, acceptedBiomes: ["Giant"], range: sectionGap },
+        { value: 2, acceptedBiomes: ["Giant"], range: sectionGap * 2 },
+        { value: 3, acceptedBiomes: ["Giant"], range: sectionGap * 3 },
     ];
 
     const planetTypeIndex = weightedChoice(rng, planetTypes) - 1
@@ -132,7 +136,8 @@ export default function planetBuilder(rng: () => number, index: number, temp: nu
             size: finalSize,
             distance: initialDistanceFactor + planetSector + ((index * 2)),
             speed: speedFactor / finalSize / planetSector,
-            rings: weightedChoice(rng, hasRing) ? planetaryRing : undefined
+            rings: weightedChoice(rng, hasRing) ? planetaryRing : undefined,
+            sector: planetSector
         },
     }
 }
