@@ -52,20 +52,32 @@ export default function planetBuilder(rng: () => number, index: number, temp: nu
     ]
 
     const ranges = [
-        {value: 1, acceptedBiomes: ["Hot"], range: sectionGap},
-        {value: 2, acceptedBiomes: ["Barren", "Irradiated"], range: sectionGap * 2},
-        {value: 3, acceptedBiomes: ["Lush", "Water", "Toxic", "Exotic"], range: sectionGap * 3},
-        {value: 4, acceptedBiomes: ["Frozen"], range: sectionGap * 4},
-        {value: 5, acceptedBiomes: ["Dead"], range: sectionGap},
-        {value: 5, acceptedBiomes: ["Giant"], range: sectionGap},
-    ]
+        { value: 1, acceptedBiomes: ["Hot"], range: sectionGap },
+        { value: 2, acceptedBiomes: ["Barren", "Irradiated"], range: sectionGap * 2 },
+        { value: 3, acceptedBiomes: ["Lush", "Water", "Toxic", "Exotic"], range: sectionGap * 3 },
+        { value: 4, acceptedBiomes: ["Frozen"], range: sectionGap * 4 },
+        { value: 5, acceptedBiomes: ["Dead"], range: sectionGap, weight: 70 },
+        { value: 3, acceptedBiomes: ["Dead"], range: sectionGap * 3, weight: 30 },
+        { value: 1, acceptedBiomes: ["Giant"], range: sectionGap, weight: 40 },
+        { value: 2, acceptedBiomes: ["Giant"], range: sectionGap * 2, weight: 40 },
+        { value: 3, acceptedBiomes: ["Giant"], range: sectionGap * 3, weight: 20 },
+    ];
 
     const planetTypeIndex = weightedChoice(rng, planetTypes) - 1
     const chosenPlanet = planetTypes[planetTypeIndex]
 
     const finalSize = chosenPlanet.biome === "Giant" ? 1 : weightedChoice(rng, sizes)
 
-    const planetSector = ranges.filter((e) => e.acceptedBiomes.includes(chosenPlanet.biome))[0].range || sectionGap
+// Find all possible ranges for this biome
+    const matchingRanges = ranges.filter((e) =>
+        e.acceptedBiomes.includes(chosenPlanet.biome)
+    );
+
+// Use seeded rng to pick one deterministically
+    const planetSector =
+        matchingRanges.length > 0
+            ? matchingRanges[Math.floor(rng() * matchingRanges.length)].range
+            : sectionGap;
 
     const chosenPlanetVariant = BIOME_ALIASES[chosenPlanet.biome]
         .map((biome) => ({value: biome, weight: 100 / BIOME_ALIASES[chosenPlanet.biome].length}))
