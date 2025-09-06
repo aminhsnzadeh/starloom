@@ -1,5 +1,5 @@
 import weightedChoice from "./weighted-choice.ts";
-import type {planetRingType} from "../types/planet-type.tsx";
+import planetRingBuilder from "./planet-ring-builder.ts";
 
 // const planetAttr = {
 //     PLANET_TYPE: 0xA1A1,
@@ -72,12 +72,10 @@ export default function planetBuilder(rng: () => number, index: number, temp: nu
 
     const finalSize = chosenPlanet.biome === "Giant" ? 1 : weightedChoice(rng, sizes)
 
-// Find all possible ranges for this biome
     const matchingRanges = ranges.filter((e) =>
         e.acceptedBiomes.includes(chosenPlanet.biome)
-    );
+    )
 
-// Use seeded rng to pick one deterministically
     const planetSector =
         matchingRanges.length > 0
             ? matchingRanges[Math.floor(rng() * matchingRanges.length)].range
@@ -92,43 +90,6 @@ export default function planetBuilder(rng: () => number, index: number, temp: nu
         {value: true, weight: 20},
     ]
 
-    const ringSizes = [
-        {value: finalSize + 0.1, weight: 25},
-        {value: finalSize + 0.2, weight: 25},
-        {value: finalSize + 0.3, weight: 25},
-        {value: finalSize + 0.4, weight: 25},
-    ]
-
-    const ringCounts = [
-        {value: 1, weight: 45},
-        {value: 2, weight: 40},
-        {value: 3, weight: 10},
-        {value: 4, weight: 5},
-    ]
-
-    const ringThickness = [
-        {value: 0.1, weight: 25},
-        {value: 0.2, weight: 25},
-        {value: 0.3, weight: 25},
-        {value: 0.4, weight: 25},
-    ]
-
-    const ringGap = [
-        {value: 0.05, weight: 25},
-        {value: 0.1, weight: 25},
-        {value: 0.2, weight: 25},
-        {value: 0.3, weight: 25},
-    ]
-
-    const planetaryRing: planetRingType = {
-        color: "#bcbc54",
-        size: weightedChoice(rng, ringSizes),
-        count: weightedChoice(rng, ringCounts),
-        ringGapFactor: weightedChoice(rng, ringGap),
-        ringThicknessFactor: weightedChoice(rng, ringThickness),
-        ringSizeFactor: 1,
-    }
-
     return {
         planet: {
             type: chosenPlanet.biome,
@@ -136,7 +97,7 @@ export default function planetBuilder(rng: () => number, index: number, temp: nu
             size: finalSize,
             distance: initialDistanceFactor + planetSector + ((index * 2)),
             speed: speedFactor / finalSize / planetSector,
-            rings: weightedChoice(rng, hasRing) ? planetaryRing : undefined,
+            rings: weightedChoice(rng, hasRing) ? planetRingBuilder(rng, finalSize) : undefined,
             sector: planetSector
         },
     }
