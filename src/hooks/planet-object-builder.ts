@@ -1,5 +1,5 @@
 import weightedChoice from "./weighted-choice.ts";
-import type {planetRingType} from "../types/planet-type.tsx";
+import planetRingBuilder from "./planet-ring-builder.ts";
 
 // const planetAttr = {
 //     PLANET_TYPE: 0xA1A1,
@@ -52,20 +52,34 @@ export default function planetBuilder(rng: () => number, index: number, temp: nu
     ]
 
     const ranges = [
-        {value: 1, acceptedBiomes: ["Hot"], range: sectionGap},
-        {value: 2, acceptedBiomes: ["Barren", "Irradiated"], range: sectionGap * 2},
-        {value: 3, acceptedBiomes: ["Lush", "Water", "Toxic", "Exotic"], range: sectionGap * 3},
-        {value: 4, acceptedBiomes: ["Frozen"], range: sectionGap * 4},
-        {value: 5, acceptedBiomes: ["Dead"], range: sectionGap},
-        {value: 5, acceptedBiomes: ["Giant"], range: sectionGap},
-    ]
+        { value: 1, acceptedBiomes: ["Hot"], range: sectionGap },
+        { value: 2, acceptedBiomes: ["Barren", "Irradiated"], range: sectionGap * 2 },
+        { value: 3, acceptedBiomes: ["Lush", "Water", "Toxic", "Exotic"], range: sectionGap * 3 },
+        { value: 4, acceptedBiomes: ["Frozen"], range: sectionGap * 4 },
+        //dead planet chance
+        { value: 1, acceptedBiomes: ["Dead"], range: sectionGap },
+        { value: 2, acceptedBiomes: ["Dead"], range: sectionGap * 2 },
+        { value: 3, acceptedBiomes: ["Dead"], range: sectionGap * 3 },
+        { value: 4, acceptedBiomes: ["Dead"], range: sectionGap * 4 },
+        //giant planet chance
+        { value: 1, acceptedBiomes: ["Giant"], range: sectionGap },
+        { value: 2, acceptedBiomes: ["Giant"], range: sectionGap * 2 },
+        { value: 3, acceptedBiomes: ["Giant"], range: sectionGap * 3 },
+    ];
 
     const planetTypeIndex = weightedChoice(rng, planetTypes) - 1
     const chosenPlanet = planetTypes[planetTypeIndex]
 
     const finalSize = chosenPlanet.biome === "Giant" ? 1 : weightedChoice(rng, sizes)
 
-    const planetSector = ranges.filter((e) => e.acceptedBiomes.includes(chosenPlanet.biome))[0].range || sectionGap
+    const matchingRanges = ranges.filter((e) =>
+        e.acceptedBiomes.includes(chosenPlanet.biome)
+    )
+
+    const planetSector =
+        matchingRanges.length > 0
+            ? matchingRanges[Math.floor(rng() * matchingRanges.length)].range
+            : sectionGap;
 
     const chosenPlanetVariant = BIOME_ALIASES[chosenPlanet.biome]
         .map((biome) => ({value: biome, weight: 100 / BIOME_ALIASES[chosenPlanet.biome].length}))
@@ -76,43 +90,6 @@ export default function planetBuilder(rng: () => number, index: number, temp: nu
         {value: true, weight: 20},
     ]
 
-    const ringSizes = [
-        {value: finalSize + 0.1, weight: 25},
-        {value: finalSize + 0.2, weight: 25},
-        {value: finalSize + 0.3, weight: 25},
-        {value: finalSize + 0.4, weight: 25},
-    ]
-
-    const ringCounts = [
-        {value: 1, weight: 45},
-        {value: 2, weight: 40},
-        {value: 3, weight: 10},
-        {value: 4, weight: 5},
-    ]
-
-    const ringThickness = [
-        {value: 0.1, weight: 25},
-        {value: 0.2, weight: 25},
-        {value: 0.3, weight: 25},
-        {value: 0.4, weight: 25},
-    ]
-
-    const ringGap = [
-        {value: 0.05, weight: 25},
-        {value: 0.1, weight: 25},
-        {value: 0.2, weight: 25},
-        {value: 0.3, weight: 25},
-    ]
-
-    const planetaryRing: planetRingType = {
-        color: "#bcbc54",
-        size: weightedChoice(rng, ringSizes),
-        count: weightedChoice(rng, ringCounts),
-        ringGapFactor: weightedChoice(rng, ringGap),
-        ringThicknessFactor: weightedChoice(rng, ringThickness),
-        ringSizeFactor: 1,
-    }
-
     return {
         planet: {
             type: chosenPlanet.biome,
@@ -120,7 +97,8 @@ export default function planetBuilder(rng: () => number, index: number, temp: nu
             size: finalSize,
             distance: initialDistanceFactor + planetSector + ((index * 2)),
             speed: speedFactor / finalSize / planetSector,
-            rings: weightedChoice(rng, hasRing) ? planetaryRing : undefined
+            rings: weightedChoice(rng, hasRing) ? planetRingBuilder(rng, finalSize) : undefined,
+            sector: planetSector
         },
     }
 }
