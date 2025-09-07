@@ -12,7 +12,7 @@ export default function SystemScene() {
     return (
         <Canvas style={{width:'100%', height:'100vh', backgroundColor: `#${color.getHexString()}`}} shadows >
             <SolarSystem />
-            <PerspectiveCamera makeDefault position={[0, 4, 15]} near={0.1} far={5000} />
+            <PerspectiveCamera makeDefault position={[0, 25, 50]} near={0.1} far={5000} />
             <OrbitControls  />
             <SpaceLight />
             <StarField count={10000} spread={1000} />
