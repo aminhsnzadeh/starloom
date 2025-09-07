@@ -1,10 +1,11 @@
 import {Canvas} from "@react-three/fiber";
-import {OrbitControls, PerspectiveCamera} from "@react-three/drei";
+import {OrbitControls} from "@react-three/drei";
 import SpaceLight from "../light/space-light.tsx";
 import SolarSystem from "../objects/solar-system.tsx";
 import StarField from "../objects/star-field.tsx";
 import SceneEffects from "../effects/main.tsx";
 import {useSpaceBiome} from "../../hooks/useSpaceBiome.ts";
+import CameraController from "../camera/controller.tsx";
 
 export default function SystemScene() {
     const { color } = useSpaceBiome()
@@ -12,8 +13,9 @@ export default function SystemScene() {
     return (
         <Canvas style={{width:'100%', height:'100vh', backgroundColor: `#${color.getHexString()}`}} shadows >
             <SolarSystem />
-            <PerspectiveCamera makeDefault position={[0, 4, 15]} near={0.1} far={5000} />
-            <OrbitControls  />
+            {/*<PerspectiveCamera makeDefault position={[0, 25, 50]} near={0.1} far={5000} />*/}
+            <CameraController />
+            <OrbitControls enableZoom={true}  />
             <SpaceLight />
             <StarField count={10000} spread={1000} />
             <SceneEffects />
