@@ -32,6 +32,8 @@ export default function SolarSystem() {
                         rotationSpeed={planet.speed}
                         distance={planet.distance}
                         ring={planet.rings}
+                        seed={planet.seed}
+                        biome={planet.type}
                     />
                 ))
             }

@@ -1,8 +1,8 @@
-import usePerlin from "../../hooks/usePerlin.ts";
+import useTerrain from "../../hooks/useTerrain.ts";
 
 export default function Experimental() {
 
-    const { generateDisplacementMap } = usePerlin("Lush")
+    const { generateDisplacementMap } = useTerrain("Lush")
 
     return (
         <div id={"test"}>

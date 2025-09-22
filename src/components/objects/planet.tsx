@@ -4,13 +4,19 @@ import { useFrame } from "@react-three/fiber"
 import * as THREE from "three"
 import type { planetProps } from "../../types/planet-type.tsx"
 import useFocus from "../../store/focus.ts"
+import useTerrain from "../../hooks/useTerrain.ts";
 
-export default function PlanetGroup({ size, rotationSpeed, distance, ring }: planetProps) {
+export default function PlanetGroup({ size, rotationSpeed, distance, ring, biome, seed }: planetProps) {
     const planetGRef = useRef<THREE.Group>(null)
     const planetSphereRef = useRef<THREE.Object3D>(null)
     const trailThickness = 0.01
     const trailThetaEnd = (rotationSpeed * 1000) / 2
     const ringFactor = new Array(ring?.count || 0).fill(0)
+
+    const { generateDisplacementMap } = useTerrain(biome)
+
+    //@ts-ignore
+    const texture = new THREE.CanvasTexture(generateDisplacementMap(512, 512, (size * 5), seed))
 
     const { focus } = useFocus()
 
@@ -30,7 +36,7 @@ export default function PlanetGroup({ size, rotationSpeed, distance, ring }: pla
         <group ref={planetGRef}>
             <mesh ref={planetSphereRef} position={[distance, 0, 0]} onClick={handleFocus}>
                 <sphereGeometry args={[size, 32, 32]} />
-                <meshStandardMaterial color="#ffffaa" />
+                <meshStandardMaterial map={texture} />
             </mesh>
 
             {/* Orbit path */}

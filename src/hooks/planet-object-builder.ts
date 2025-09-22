@@ -98,7 +98,8 @@ export default function planetBuilder(rng: () => number, index: number, temp: nu
             distance: initialDistanceFactor + planetSector + ((index * 2)),
             speed: speedFactor / finalSize / planetSector,
             rings: weightedChoice(rng, hasRing) ? planetRingBuilder(rng, finalSize) : undefined,
-            sector: planetSector
+            sector: planetSector,
+            seed: rng()
         },
     }
 }

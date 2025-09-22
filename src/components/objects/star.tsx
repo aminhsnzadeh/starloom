@@ -47,8 +47,8 @@ export default function StarGroup({ stars, gap }: starProps) {
                         </mesh>
                         <pointLight
                             color={star.color}
-                            intensity={star.size * 50}
-                            distance={star.size * 50}
+                            intensity={star.size * 75}
+                            distance={star.size * 75}
                             decay={1}
                         />
                     </group>
