@@ -1,9 +1,9 @@
 //@ts-ignore
 import { Noise } from 'noisejs';
 
-type Biome = "Lush" | "Frozen" | "Hot" | "Toxic" | "Irradiated" | "Dead";
+type Biome = string;
 
-export default function usePerlin(biome: Biome = "Lush") {
+export default function useTerrain(biome: Biome = "Lush") {
 
     const noise = new Noise(Math.random());
 
@@ -31,6 +31,10 @@ export default function usePerlin(biome: Biome = "Lush") {
             case "Hot": return [255, 69, 0];       // lava
             case "Toxic": return [154, 205, 50];   // green sludge
             case "Irradiated": return [255, 255, 0]; // acid yellow
+            case "Exotic": return [167, 102, 237]; // exotic purple
+            case "Giant": return [237, 183, 102]; // storm color
+            case "Barren": return [237, 183, 102]; // yellow sand
+            case "Water": return [0, 105, 148]; // yellow sand
             default: return [0, 0, 50];
         }
     }
@@ -42,6 +46,10 @@ export default function usePerlin(biome: Biome = "Lush") {
             case "Frozen": return [180 + value*50, 230 + value*25, 250];  // icy blue
             case "Hot": return [139 + value*80, 69, 19];                  // brown/red rocky
             case "Toxic": return [85 + value*70, 107 + value*80, 47];     // greenish
+            case "Exotic": return [85 + value*70, 107 + value*80, 47];     // greenish
+            case "Giant": return [237, 183, 102];     // greenish
+            case "Barren": return [247, 207, 146];     // yellow hills
+            case "Water": return [180 + value*50, 230 + value*25, 250];     // yellow hills
             default: return [100 + value*100, 100 + value*100, 100];     // grey/metal
         }
     }
@@ -105,7 +113,7 @@ export default function usePerlin(biome: Biome = "Lush") {
 // //@ts-ignore
 // import { Noise } from 'noisejs';
 //
-// export default function usePerlin() {
+// export default function useTerrain() {
 //
 //     const noise = new Noise(Math.random());
 //
