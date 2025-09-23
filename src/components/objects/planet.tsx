@@ -1,5 +1,5 @@
 // PlanetGroup.tsx
-import { useRef } from "react"
+import {useMemo, useRef} from "react"
 import { useFrame } from "@react-three/fiber"
 import * as THREE from "three"
 import type { planetProps } from "../../types/planet-type.tsx"
@@ -15,8 +15,11 @@ export default function PlanetGroup({ size, rotationSpeed, distance, ring, biome
 
     const { generateDisplacementMap } = useTerrain(biome)
 
+    const planetTexture = useMemo(() => {
+        return generateDisplacementMap(512, 512, (size * 5), seed)
+    }, [])
     //@ts-ignore
-    const texture = new THREE.CanvasTexture(generateDisplacementMap(512, 512, (size * 5), seed))
+    const texture = new THREE.CanvasTexture(planetTexture)
 
     const { focus } = useFocus()
 
